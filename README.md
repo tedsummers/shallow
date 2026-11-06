@@ -49,7 +49,36 @@ From the repository root:
 g++ -std=c++14 -O2 -mpopcnt -Iinclude source/*.cpp -pthread -o shallow-linux
 ```
 
-### Build with CMake
+### Build on Windows
+
+#### Option A: Visual Studio / MSVC (CMake)
+Open the project directory in Visual Studio or build from a **Developer Command Prompt for VS**:
+
+```cmd
+cmake -S . -B build
+cmake --build build --config Release
+```
+The resulting executable will be in `build\Release\shallow_*.exe`.
+
+#### Option B: MinGW-w64 / MSYS2 (GCC)
+From an MSYS2 or MinGW-w64 terminal:
+
+```sh
+g++ -std=c++14 -O2 -mpopcnt -Iinclude source/*.cpp -pthread -static -o shallow-windows-x86_64.exe
+```
+
+#### Option C: Cross-compiling for Windows on Linux
+You can easily cross-compile a Windows 64-bit binary from Linux using `zig c++` or `x86_64-w64-mingw32-g++`:
+
+```sh
+# Using Zig
+zig c++ -target x86_64-windows-gnu -std=c++14 -O2 -mpopcnt -Iinclude source/*.cpp -pthread -o shallow-windows-x86_64.exe
+
+# Using MinGW-w64
+x86_64-w64-mingw32-g++ -std=c++14 -O2 -mpopcnt -Iinclude source/*.cpp -pthread -static -o shallow-windows-x86_64.exe
+```
+
+### Build with CMake (Linux / macOS)
 
 ```sh
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release

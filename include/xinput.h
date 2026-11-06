@@ -6,7 +6,7 @@ xInput.h - Copyright (C) 2016 by Dmitry Sultanov
 #include <iostream>
 #include <string>
 
-#ifdef _MSC_VER
+#if defined(_WIN32) || defined(_MSC_VER)
 #include <windows.h>
 #elif (defined __GNUC__)
 #endif
@@ -26,7 +26,7 @@ private:
   bool peek();
   std::string readInput();
 
-#ifdef _MSC_VER
+#if defined(_WIN32) || defined(_MSC_VER)
   HANDLE hinput_{};
   bool   in_pipe_{};
 #elif (defined __GNUC__)

@@ -3,7 +3,9 @@ xInput.cpp - Copyright (C) 2016 by Dmitry Sultanov
 *************************************************************/
 #include "xinput.h"
 
-#ifdef __GNUC__
+#if defined(_WIN32) || defined(_MSC_VER)
+#include <windows.h>
+#elif (defined __GNUC__)
 
 #include <stdio.h>
 #include <sys/ioctl.h> // For FIONREAD
@@ -18,7 +20,7 @@ namespace NShallow
 xInput::xInput() :
   is_(std::cin)
 {
-#ifdef _MSC_VER
+#if defined(_WIN32) || defined(_MSC_VER)
   hinput_ = GetStdHandle(STD_INPUT_HANDLE);
   if(hinput_)
   {
@@ -61,7 +63,7 @@ std::string xInput::readInput()
   return std::move(sline);
 }
 
-#ifdef _MSC_VER
+#if defined(_WIN32) || defined(_MSC_VER)
 bool xInput::peek()
 {
   if(!hinput_)
