@@ -284,6 +284,10 @@ void Board::makeNullMove()
   // save Zobrist keys
   undo.zcode_ = fmgr_.hashCode();
 
+  // A null move is a search-only pass, so repetition history from the real
+  // game must not make positions in this synthetic line look repeated.
+  data_.repsCounter_ = 1;
+
   X_ASSERT(data_.state_ != Ok, "try null-move on invalid state");
 
   auto ocolor = Figure::otherColor(color());

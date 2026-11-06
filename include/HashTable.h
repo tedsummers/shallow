@@ -99,7 +99,7 @@ public:
   {
     if(sz == 0)
       return;
-    X_ASSERT(sz > 24, "hash table size is too large");
+    X_ASSERT(sz > 32, "hash table size is too large");
     buffer_.resize((size_t)1 << sz);
     szMask_ = size() - 1;
     movesCount_ = 0;

@@ -84,6 +84,12 @@ file(GLOB_RECURSE INCLUDE_FILES include/*)
 add_executable(${OUTPUT_EXEC_NAME} ${SOURCE_FILES} ${INCLUDE_FILES})
 target_link_libraries( ${OUTPUT_EXEC_NAME} ) # ${Boost_FILESYSTEM_LIBRARY}  ${Boost_SYSTEM_LIBRARY} )
 
+set(TEST_SOURCE_FILES ${SOURCE_FILES})
+list(FILTER TEST_SOURCE_FILES EXCLUDE REGEX "/shallow\\.cpp$")
+add_executable(shallow_perft ${TEST_SOURCE_FILES} tests/perft.cpp)
+enable_testing()
+add_test(NAME shallow_perft COMMAND shallow_perft)
+
 if(MSVC)
   set_target_properties(${OUTPUT_EXEC_NAME} PROPERTIES OUTPUT_NAME_RELEASE ${MSVC_TARGET_NAME_POSTFIX})
   set_target_properties(${OUTPUT_EXEC_NAME} PROPERTIES OUTPUT_NAME_DEBUG ${MSVC_TARGET_NAME_DEBUG})

@@ -34,6 +34,8 @@
 *.json
 
 /build*
+/shallow-linux
+/shallow_perft
 /Debug
 /nbproj*
 /.idea

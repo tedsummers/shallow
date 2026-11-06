@@ -15,7 +15,7 @@ std::vector<xOptionInfo> all_options()
       "Hash",
       "spin",
       "1",
-      "1024",
+      "2048",
 #ifdef __ANDROID__
       "64",
 #else

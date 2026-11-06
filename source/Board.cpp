@@ -596,8 +596,9 @@ bool Board::validateMove(const Move move) const
   auto mask_all = (fmgr_.mask(Figure::ColorWhite) | fmgr_.mask(Figure::ColorBlack));
   if(Figure::TypeKing == ffrom.type())
   {
-    X_ASSERT(underCheck() && ((move.from()&7)-(move.to()&7) > 1 || (move.from()&7)-(move.to()&7) < -1),
-              "try to castle under check");
+    const int king_delta = move.to() - move.from();
+    if(underCheck() && (king_delta == 2 || king_delta == -2))
+      return false;
 
     mask_all ^= set_mask_bit(move.from());
     if(isAttacked(move.to(), mask_all, ocolor))
@@ -606,7 +607,7 @@ bool Board::validateMove(const Move move) const
     if(underCheck())
       return true;
     // castle
-    auto d = move.to() - move.from();
+    auto d = king_delta;
     if(d == 2 || d == -2)
     {
       X_ASSERT(!castling(color(), d == 2 ? 0 : 1), "castle is not allowed");

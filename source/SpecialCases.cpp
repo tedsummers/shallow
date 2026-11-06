@@ -660,7 +660,7 @@ void SpecialCasesDetector::initCases()
     { Figure::TypeRook, Figure::ColorBlack, 1 },
     { Figure::TypeBishop, Figure::ColorBlack, 1 } })] = [](Board const& board) -> std::pair<SpecialCaseResult, ScoreType>
   {
-    return { SpecialCaseResult::ALMOST_DRAW, 0 };
+    return bishopRooks(board, Figure::ColorBlack);
   };
 
   scases_[format({ { Figure::TypeRook, Figure::ColorBlack, 1 },
@@ -680,7 +680,7 @@ void SpecialCasesDetector::initCases()
   scases_[format({ { Figure::TypeBishop, Figure::ColorBlack, 2 },
     { Figure::TypeBishop, Figure::ColorWhite, 1 } })] = [](Board const& board) -> std::pair<SpecialCaseResult, ScoreType>
   {
-    return bishopRooks(board, Figure::ColorBlack);
+    return { SpecialCaseResult::ALMOST_DRAW, 0 };
   };
 
   scases_[format({ { Figure::TypeBishop, Figure::ColorWhite, 2 },

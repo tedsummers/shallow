@@ -382,7 +382,6 @@ struct Board
 
   inline bool hasReps() const
   {
-    X_ASSERT(data_.repsCounter_ < countReps(2, fmgr_.hashCode()), "invalid number of repetitions");
     return data_.repsCounter_ > 1;
   }
 
@@ -405,6 +404,10 @@ struct Board
     X_ASSERT(stop < 0, "stop in countReps is invalid");
     for(; i >= stop && reps < 3; i -= 2)
     {
+      // Null moves exist only in the search tree and cannot establish a
+      // repetition with positions from the real game history.
+      if(undoInfo(i).is_nullmove())
+        break;
       if(undoInfo(i).zcode_ == zcode)
         reps++;
       if(undoInfo(i).irreversible())

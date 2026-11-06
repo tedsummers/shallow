@@ -73,13 +73,14 @@ void Engine::setMemory(int mb)
     return;
 
 #ifdef USE_HASH
-  size_t bytesN = mb*1024*1024;
+  size_t bytesN = (size_t)mb * 1024 * 1024;
   size_t hitemSize = sizeof(NEngine::GHashTable::ItemType);
   size_t hitemsN = log2((BitMask)(bytesN)/hitemSize);
   hash_.resize(hitemsN);
 #ifdef USE_EVAL_HASH_ALL
-  int evbytesN = (int)bytesN - (1<<hitemsN)*hitemSize;
-  if (evbytesN > 0) {
+  size_t usedBytes = ((size_t)1 << hitemsN) * hitemSize;
+  if (bytesN > usedBytes) {
+    size_t evbytesN = bytesN - usedBytes;
     size_t evitemSize = sizeof(NEngine::FHashTable::ItemType);
     size_t evitemsN = log2((BitMask)(evbytesN) / evitemSize);
     ev_hash_.resize(evitemsN);

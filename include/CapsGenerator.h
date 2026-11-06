@@ -72,10 +72,9 @@ struct CapsGenerator
           continue;
 
         add(from, to, Figure::TypeQueen);
-
-        // add promotion to checking knight
-        if(figureDir().dir(Figure::TypeKnight, color, to, oki_pos) >= 0)
-          add(from, to, Figure::TypeKnight);
+        add(from, to, Figure::TypeRook);
+        add(from, to, Figure::TypeBishop);
+        add(from, to, Figure::TypeKnight);
       }
     }
 
@@ -117,10 +116,9 @@ struct CapsGenerator
                    "captured figure should not be king|pawn");
 
           add(pw_pos, to, Figure::TypeQueen);
-
-          // add promotion to checking knight
-          if(figureDir().dir(Figure::TypeKnight, color, to, oki_pos) >= 0)
-            add(pw_pos, to, Figure::TypeKnight);
+          add(pw_pos, to, Figure::TypeRook);
+          add(pw_pos, to, Figure::TypeBishop);
+          add(pw_pos, to, Figure::TypeKnight);
         }
       }
 

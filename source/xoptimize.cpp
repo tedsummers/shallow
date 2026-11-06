@@ -120,17 +120,10 @@ bool xverifyMoves(Board& board)
   auto moves = generate<Board, SMove>(board);
   std::vector<SMove> etalons;
   std::vector<SMove> checks;
-  auto ocolor = Figure::otherColor(board.color());
   for(auto& move : moves)
   {
     if(!board.validateMoveBruteforce(move))
       continue;
-    if(move.new_type() == Figure::TypeBishop || move.new_type() == Figure::TypeRook)
-      continue;
-    if(move.new_type() == Figure::TypeKnight
-       && !(movesTable().caps(Figure::TypeKnight, move.to()) & set_mask_bit(board.kingPos(ocolor)))
-       )
-       continue;
     etalons.push_back(move);
     Board brd{ board };
     brd.makeMove(move);

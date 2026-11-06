@@ -435,20 +435,23 @@ void Engine::sortMoves0(int ictx)
   auto& board = sctx.board_;
 
 #ifdef SORT_MOVES_0_HIST
-  if (sdata.numOfMoves_ > 2)
+  if (sdata.numOfMoves_ > 1)
   {
     bring_to_front(moves.data(), moves.data() + sdata.numOfMoves_, sdata.best_);
-    auto* b = moves.data();
-    auto* e = b + sdata.numOfMoves_;
-    b++;
-    for (auto* m = b; m != e; ++m)
+    if (sdata.numOfMoves_ > 2)
     {
-      if (m->new_type() || board.is_capture(*m))
-        continue;
-      auto& hist = history(board.color(), m->from(), m->to());
-      m->sort_value = hist.score();
+      auto* b = moves.data();
+      auto* e = b + sdata.numOfMoves_;
+      b++;
+      for (auto* m = b; m != e; ++m)
+      {
+        if (m->new_type() || board.is_capture(*m))
+          continue;
+        auto& hist = history(board.color(), m->from(), m->to());
+        m->sort_value = hist.score();
+      }
+      std::stable_sort(b, e, [](SMove const m1, SMove const m2) { return m1 > m2; });
     }
-    std::stable_sort(b, e, [](SMove const m1, SMove const m2) { return m1 > m2; });
   }
 #else
   std::stable_sort(moves.data(), moves.data() + sdata.numOfMoves_, [](SMove const& m1, SMove const& m2) { return m1 > m2; });
